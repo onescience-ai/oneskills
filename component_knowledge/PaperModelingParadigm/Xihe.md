@@ -1,5 +1,4 @@
 
----
 
 ### 【第一部分：物理先验注入范式】
 
@@ -123,5 +122,3 @@
 
 ---
 
-**下一步建议：**
-Would you like me to construct a comparative table summarizing the distinct AI architectures and multi-scale strategies used across all the models we've processed (e.g., FourCastNet, FuXi, GraphCast, GenCast, NeuralGCM, and XiHe) to give you a holistic technical overview?
