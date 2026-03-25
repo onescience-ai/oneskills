@@ -1,8 +1,4 @@
-基于您提供的 `Physics_Informed_Teleconnection_Aware.md` 文件（TelePiT 模型），我为您提取并归纳了该模型在全球次季节到季节（S2S）预测任务中的建模范式。TelePiT 的核心突破在于将**物理方程先验（Physics-Informed Neural ODE）**与**大尺度遥相关机制（Teleconnection-Aware Attention）**深度融合到 Transformer 架构中，并针对球面几何设计了独特的降维策略。
 
-以下是结构化的技术范式提取：
-
----
 
 ### 【第一部分：物理先验注入范式】
 
