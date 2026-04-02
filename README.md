@@ -5,7 +5,7 @@
 
 
 
-OneSkills 是基于 OneScience 构建的一个开源知识与 Skills（能力）库，旨在为智能体（Agents）开发提供可复用、可组合、可扩展的能力模块，加速多领域专家。
+OneSkills 是基于 OneScience 构建的一个开源知识与 Skills（能力）库，旨在为智能体（Agents）开发提供可复用、可组合、可扩展的能力模块，优化多种智能体AI4S领域代码生成效果。
 
 > 🚀 OneSkills = Knowledge × Skills × Agents
 >
