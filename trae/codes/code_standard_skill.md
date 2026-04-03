@@ -1,27 +1,38 @@
----
+***
+
 name: onescience组件使用规范
 description: 定义 OneScience 框架下 AI4S 深度学习组件的标准化使用规范。强制要求所有组件通过统一注册机制调用，以消除引用路径错误，确保代码的可维护性与框架兼容性。
 category: Code Generation / AI4S Framework
 version: 1.0.0
----
+--------------
 
 ## 能力描述
 
-本技能用于规范 OneScience 框架下 AI4S 深度学习组件的实例化与调用流程。通过强制统一导入入口，确保代码风格一致性，避免因直接引用底层实现导致的模块路径变更风险或引用错误。
+本技能用于规范 OneScience 框架下 AI4S 深度学习组件的实例化与调用流程。核心原则是：组件必须通过统一的导入入口直接使用，不得读取其内部实现代码后再重新生成**等价实现**。此举确保代码风格一致性，避免因重复实现导致的维护冗余、版本偏差或路径引用错误。
+
+## 使用场景
+代码生成时，引导代码正确生成
 
 ## 核心规则
 
 ### 1. 导入规则（强制）
 
-所有组件（包括模型层、算子、嵌入层等）**必须**通过 `onescience.modules` 进行统一导入。严禁直接引用 `onescience` 下的子模块内部路径。
+所有组件（包括模型层、算子、嵌入层等）**必须**通过 `onescience.modules` 进行统一导入。严禁以下行为：
+- 直接引用 onescience 下的子模块内部路径
+- 读取组件源码后，在当前文件中重新编写**等价的类或函数实现**
 
 ```python
-# ✅ 正确示例：使用统一注册入口
+# ✅ 正确示例：直接 import 并使用
 from onescience.modules import PanguEmbedding2D, PanguEmbedding3D, PanguDownSample3D
 
-# ❌ 错误示例：直接引用内部实现
-from onescience.models.module import Module
-from onescience.ops.sampling import DownSample3D
+embedding = PanguEmbedding2D(img_size=(721, 1440), patch_size=(4, 4), embed_dim=192, in_chans=7)
+
+# ❌ 错误示例：读取源码后重新生成等价实现（禁止）
+# 以下代码不允许出现 —— 即使功能等价，也属于重复实现
+class PanguEmbedding2D:
+    def __init__(self, img_size, patch_size, embed_dim, in_chans):
+        # 自行编写的实现...
+        pass
 ```
 
 ### 2. 参数规范（强制）

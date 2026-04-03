@@ -81,11 +81,11 @@
 **观察**：当前任务需要哪些技能？
 
 **思考**：
-- 是否气象领域需求，是否涉及维度转换？→ 加载 `./oneskills/trae/code_standard/earth_shape_match_skill.md`
+- 是否气象领域需求，是否涉及维度转换？→ 加载 `./oneskills/trae/codes/earth_shape_match_skill.md`
 - 用户是否提供了专用技能？→ 加载对应文件
 
 **行动**：仅读取必需的技能文件，提取其执行流程
-- `./oneskills/trae/code_standard/code_standard_skill.md`组件使用技能是必须加载的
+- `./oneskills/trae/codes/code_standard_skill.md`组件使用技能是必须加载的
 
 **验证**：确认技能流程已理解，列出关键规则
 
