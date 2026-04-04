@@ -1,0 +1,45 @@
+# Global + Region Hybrid FourCastNet Configuration
+
+model:
+  # 模型基本配置
+  N_in_channels: 2
+  N_out_channels: 2
+  patch_size: [16, 16]
+  num_blocks: 16
+  max_epoch: 100
+  patience: 10
+  lr: 0.0001
+  checkpoint_dir: './checkpoint'
+  
+  # 预训练模型路径
+  pretrained_model_path: '/path/to/pretrained/fourcastnet/model.pth'
+  
+  # AFNO配置
+  embed_dim: 768
+  depth: 12
+  mlp_ratio: 4.0
+  drop_rate: 0.0
+  drop_path_rate: 0.0
+  sparsity_threshold: 0.01
+  hard_thresholding_fraction: 1.0
+
+# 数据加载器配置
+datapipe:
+  # 数据集配置
+  dataset:
+    channels: ["u10", "v10"]  # 输入输出通道
+    static_dir: './data/static'  # 静态数据路径
+    data_dir: './data/region'  # 局部区域数据路径
+    global_data_dir: './data/global'  # 全球数据路径
+    
+    # 数据划分
+    train_ratio: 0.6
+    val_ratio: 0.3
+    test_ratio: 0.1
+  
+  # 数据加载器配置
+  dataloader:
+    batch_size: 1
+    num_workers: 4
+    pin_memory: true
+    drop_last: true
