@@ -1,12 +1,5 @@
 # Architecture Overview
 
-本文件用于从架构视角说明 `./oneskills/` 的定位、设计思路和当前价值。
-
-适合用于：
-
-- 对内汇报
-- 向管理者说明建设成果
-- 向新同事解释 `oneskills` 与 `OneScience` 的关系
 
 ---
 
