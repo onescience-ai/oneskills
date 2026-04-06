@@ -50,7 +50,7 @@ cp -r onescills/skills /your/project/.cursor/skills      # Cursor
 cp -r onescills/skills /your/project/.codex/skills       # Codex CLI
 cp -r onescills/skills /your/project/.kiro/steering      # Kiro
 cp -r onescills/skills /your/project/skills/custom       # DeerFlow 2.0
-cp -r onescills/skills /your/project/.trae/rules         # Trae
+cp -r onescills/skills /your/project/.trae/skills         # Trae
 cp -r onescills/skills /your/project/.antigravity        # Antigravity
 cp -r onescills/skills /your/project/.github/superpowers # VS Code (Copilot)
 cp -r onescills/skills /your/project/skills              # OpenClaw
@@ -68,7 +68,7 @@ cp -r onescills/skills /your/project/.qwen/skills       # Qwen Code
 | **Claude Code** | `CLAUDE.md` | 项目根目录 | - |
 | **Kiro** | `.kiro/steering/*.md` | 项目根目录 | 支持 always/globs/手动三种模式 |
 | **DeerFlow 2.0** | `skills/custom/*/SKILL.md` | 项目根目录 | 字节跳动开源 SuperAgent，自动发现自定义 skills |
-| **Trae** | `.trae/rules/project_rules.md` | 项目级规则 | - |
+| **Trae** | `.trae/skills/*/*.md` | 项目级规则 | - |
 | **Antigravity** | `GEMINI.md` 或 `AGENTS.md` | 项目根目录 | - |
 | **VS Code** | `.github/copilot-instructions.md` | 项目根目录 | Copilot 自定义指令 |
 | **Cursor** | `.cursor/rules/*.md` | 项目级规则目录 | - |
