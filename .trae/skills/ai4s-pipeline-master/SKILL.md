@@ -1,6 +1,6 @@
 ---
 name: AI4S Pipeline Master
-description: AI for Science 研究工作流主技能，统筹整个 AI4S 研究 pipeline，协调各子技能完成复杂任务
+description: AI for Science 研究工作流主技能，统筹整个 AI4S 研究 pipeline，协调各子技能完成复杂任务,包括模型复现、数据加载分析、模型训练、模型诊断等
 ---
 
 # Skill: AI4S Pipeline Master
