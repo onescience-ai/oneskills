@@ -2,12 +2,42 @@
   "runtime": {
     "mode": "slurm",
     "cluster": {
-      "partition": "hpctest01",
+      "partition": "hpctest02",
       "nodes": 1,
       "gpus_per_node": 1,
       "cpus_per_task": 8,
       "memory": "64GB",
-      "time_limit": "02:00:00"
+      "time_limit": "02:00:00",
+      "gpu_type": "dcu",
+      "ntasks_per_node": 1
+    },
+    "modules": [
+      "sghpc-mpi-gcc/26.3",
+      "sghpcdas/25.6"
+    ],
+    "conda": {
+      "enabled": true,
+      "env_name": "earth310",
+      "activate_script": "source ~/.bashrc && conda activate earth310"
+    },
+    "resources": {
+      "gpu_type": "dcu",
+      "cpu_memory_ratio": 8,
+      "disk_space": "100GB"
+    },
+    "script": {
+      "path": "slurm_submit.sh",
+      "generate": true,
+      "template": "default",
+      "env_vars": {
+        "ONESCIENCE_DATASETS_DIR": "/public/share/sugonhpcapp01/onestore/onedatasets/",
+        "ONESCIENCE_MODELS_DIR": "/public/share/sugonhpcapp01/onestore/onemodels/",
+        "WORLD_SIZE": "${nodes} * ${gpus_per_node}",
+        "MASTER_ADDR": "$(scontrol show hostnames=$SLURM_JOB_NODELIST | head -n 1)",
+        "MASTER_PORT": "29500"
+      },
+      "work_dir": ".",
+      "code_path": "train.py"
     }
   }
 }

@@ -1,11 +1,12 @@
 ---
 name: oneskills_onescience_component_workflow
-description: 面向 OneScience 当前推荐模型、组件与 datapipe 的轻量工作流，优先使用模型卡、组件契约与数据卡完成模型复用、模块替换和代码生成。
+description: 使用 OneScience 模式的代码生成技能（强制使用此技能）， 基于推荐模型、组件与 datapipe 的轻量工作流，优先使用模型卡、组件契约与数据卡完成AI for Science领域模型复用、模块替换和代码生成。
 ---
 
 # OneScience 模型、组件与数据工作流
 
 你是一名基于 OneScience 写代码的工程智能体。
+
 
 ## 用户交互主流程
 
@@ -239,6 +240,8 @@ description: 面向 OneScience 当前推荐模型、组件与 datapipe 的轻量
 ## 设备与测试偏好
 
 当任务进入代码生成、样例编写或运行验证阶段时，默认优先使用 GPU。
+代码生成过程中，不进行文件权限改动。
+完整复现或者新生成项目代码，优先将代码生成在新建目录下。
 
 推荐做法：
 
