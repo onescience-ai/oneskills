@@ -72,7 +72,7 @@ oneskills/
 OneSkills 是嵌入式开发工具库，无需独立安装。为获得更完整的功能支持，处理复杂任务时建议配合 **OneScience** 使用。 将两者克隆到同一项目目录后，复制 skills 到对应智能体的配置目录:
 
 ```bash
-git clone https://gitee.com/onescience-ai/onescience.git # 可选
+git clone https://github.com/onescience-ai/onescience.git # 可选
 git clone https://github.com/onescience-ai/oneskills.git
 
 # 复制 skills 到你的项目（选择你使用的工具）
