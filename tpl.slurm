@@ -12,6 +12,10 @@
 echo "START TIME: $(date)"
 module purge
 
+source /etc/profile  #不能删除
+source /etc/profile.d/modules.sh #不能删除
+module use /work2/share/sghpc_sdk/modulefiles/ #不能删除
+
 ##### if DCU: Launch DCU ENV #####
 {modules_config}
 
@@ -19,6 +23,9 @@ module purge
 
 source ~/.bashrc
 conda activate {conda.env_name}
+
+source $ROCM_PATH/cuda/env.sh #不能删除
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$CONDA_PREFIX/lib #不能删除
 
 ##### onescience datasets and models Launch env #####
 export ONESCIENCE_DATASETS_DIR="{env_vars.ONESCIENCE_DATASETS_DIR}"

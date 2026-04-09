@@ -306,6 +306,11 @@ datapipe:
     # 时间步设置
     input_steps: 1     # 输入时间步数
     output_steps: 1    # 输出时间步数
+
+    img_size: [2, 721, 1440]
+    img_res: 6
+    verbose: true
+    cache: false
     
     # 气象变量
     channels:  [

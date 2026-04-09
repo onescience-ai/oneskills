@@ -60,11 +60,10 @@ triggers:
 
 ## 任务类型与技能调用顺序
 
-### 1. 代码开发任务
 
 ### 6. 数据处理任务
 
-**触发关键词**：数据处理、数据读写、数据分析、数据清洗、数据转换、data processing、data analysis
+**触发关键词**：数据处理、数据读写、数据集、数据读取、数据分析、数据清洗、数据转换、data processing、data analysis
 
 **技能调用顺序**：
 
@@ -82,27 +81,6 @@ triggers:
 
 ```
 用户输入 → 识别为 data_processing → 调用 onescience-data-processing（生成数据处理代码） → 调用 runtime（读取配置生成 SLURM 脚本并提交）
-```
-
-### 1. 代码开发任务
-
-**触发关键词**：生成代码、写代码、开发、实现、编写、code、develop
-
-**技能调用顺序**：
-
-1. **oneskills\_onescience\_component\_workflow** - 生成代码和配置（不生成 SLURM 脚本）
-2. **onescience-runtime** - 读取运行时配置并提交到 SLURM 执行
-
-**示例用户输入**：
-
-- "使用 OneScience 模式生成读取 ERA5 数据的代码"
-- "帮我写一个天气预报模型"
-- "使用 OneScience 开发数据读取脚本"
-
-**处理流程**：
-
-```
-用户输入 → 识别为 code_development → 调用 component_workflow（仅生成代码和配置） → 调用 runtime（读取配置生成 SLURM 脚本并提交）
 ```
 
 ### 2. 研究项目任务

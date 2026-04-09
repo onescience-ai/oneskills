@@ -29,6 +29,8 @@
       "path": "slurm_submit.sh",
       "generate": true,
       "template": "default",
+      "job_name": "era5_dataloader",
+      "code_path": "era5_reader.py",
       "env_vars": {
         "ONESCIENCE_DATASETS_DIR": "/public/share/sugonhpcapp01/onestore/onedatasets/",
         "ONESCIENCE_MODELS_DIR": "/public/share/sugonhpcapp01/onestore/onemodels/",
