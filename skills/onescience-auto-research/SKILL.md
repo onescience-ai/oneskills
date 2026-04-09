@@ -1,6 +1,6 @@
 ---
 name: onescience-auto-research
-description: 基于 OneScience 的自主研究编排层，管理 AI 研究全生命周期，从文献综述、创意生成、实验执行到论文写作。采用双循环架构，路由到专业领域技能。
+description: 基于 OneScience 的自主研究编排层，一版用于从文献综述、创意生成、实验执行到论文写作。采用双循环架构，路由到专业领域技能。
 ---
 
 # OneScience 自主研究技能

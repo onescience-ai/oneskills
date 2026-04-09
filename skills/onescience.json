@@ -17,8 +17,8 @@
     ],
     "conda": {
       "enabled": true,
-      "env_name": "earth310",
-      "activate_script": "source ~/.bashrc && conda activate earth310"
+      "env_name": "onescience311",
+      "activate_script": "source ~/.bashrc && conda activate onescience311"
     },
     "resources": {
       "gpu_type": "dcu",
@@ -36,8 +36,7 @@
         "MASTER_ADDR": "$(scontrol show hostnames=$SLURM_JOB_NODELIST | head -n 1)",
         "MASTER_PORT": "29500"
       },
-      "work_dir": ".",
-      "code_path": "train.py"
+      "work_dir": "."
     }
   }
 }

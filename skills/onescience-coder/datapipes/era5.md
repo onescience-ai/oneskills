@@ -9,22 +9,24 @@
 
 ## Datapipe 职责
 
-`ERA5Datapipe` 负责把按年份合并存储的 ERA5 气象场数据切成连续时间窗样本，并组织为适合天气预测模型训练或推理的 `DataLoader`。
+`ERA5Datapipe` 负责从 OneScience 数据卡中读取已配置的 ERA5 气象数据，并切成连续时间窗样本，组织为适合天气预测模型训练或推理的 `DataLoader`。
 
-补充说明：
+重要说明：
 
-- 原始数据以“每年一个 HDF5 文件”的方式存储
+- **数据已在数据卡中配置**：使用时直接引用数据卡中的数据路径和元数据，无需手动指定数据位置
+- **数据卡自动注入**：数据路径、统计量路径、变量列表等信息自动从数据卡中读取
+- **数据已就绪**：数据卡中定义的数据已在 `{ONESCIENCE_DATASETS_DIR}` 下存储，无需额外生成测试数据
 - datapipe 负责变量筛选、时间窗切片、归一化、太阳天顶角构造和 `DataLoader` 组装
 - train / val / test 的年份划分不在 datapipe 内部完成，而是由外部通过 `used_years` 显式传入
 
 ## 输入配置
 
 - `dataset_dir`
-  - ERA5 数据根目录
+  - ERA5 数据根目录（**从数据卡中自动读取，无需手动指定**）
 - `used_years`
   - 当前 datapipe 使用的年份列表
 - `used_variables`
-  - 当前任务需要读取的变量名列表
+  - 当前任务需要读取的变量名列表（**可从数据卡元数据中获取**）
 - `input_steps`
   - 输入时间步数
 - `output_steps`
@@ -38,8 +40,8 @@
 
 ## 数据存储约定
 
-- 主数据路径：`<dataset_dir>/data_merged/<year>.h5`
-- 统计量路径：`<dataset_dir>/stats/global_means.npy` 与 `global_stds.npy`
+- 主数据路径：`{ONESCIENCE_DATASETS_DIR}/ERA5/newh5/data_merged/<year>.h5`
+- 统计量路径：`{ONESCIENCE_DATASETS_DIR}/ERA5/newh5/stats/global_means.npy` 与 `global_stds.npy`
 - 元数据来源：`fields` 数据集的 `variables` 与 `time_step` 属性
 
 额外约定：
