@@ -8,7 +8,7 @@
 
 ## 📖 项目简介
 
-OneSkills 是基于 OneScience 构建的开源知识与能力库（Skills Library），专为智能体（Agents）开发设计，提供可复用、可组合、可扩展的能力模块，显著优化 AI4S（AI for Science）领域的代码生成效果。
+OneSkills 是基于 OneScience 构建的开源知识与能力库（Skills Library），专为智能体（Agents）开发设计，提供可复用、可组合、可扩展的能力模块，聚焦 AI4S（AI for Science）科学智能科研领域，实现从数据处理、模型训练到实验分析的全流程自动化科研能力，显著提升科学研究效率与代码生成效果。
 
 在智能体时代，单一模型能力已无法满足复杂科学计算任务需求。OneSkills 通过结构化知识库与可执行能力模块，帮助开发者构建专业级 AI-native 科学研究系统。
 
@@ -86,20 +86,20 @@ git clone https://github.com/onescience-ai/onescience.git # 可选
 git clone https://github.com/onescience-ai/oneskills.git
 
 # 复制 skills 到你的项目（选择你使用的工具）
-cp -r onescills/skills /your/project/.claude/skills      # Claude Code
-cp -r onescills/skills /your/project/.cursor/skills      # Cursor
-cp -r onescills/skills /your/project/.codex/skills       # Codex CLI
-cp -r onescills/skills /your/project/.kiro/steering      # Kiro
-cp -r onescills/skills /your/project/skills/custom       # DeerFlow 2.0
-cp -r onescills/skills /your/project/.trae/skills         # Trae
-cp -r onescills/skills /your/project/.antigravity        # Antigravity
-cp -r onescills/skills /your/project/.github/superpowers # VS Code (Copilot)
-cp -r onescills/skills /your/project/skills              # OpenClaw
-cp -r onescills/skills /your/project/.windsurf/skills   # Windsurf
-cp -r onescills/skills /your/project/.gemini/skills     # Gemini CLI
-cp -r onescills/skills /your/project/.aider/skills      # Aider
-cp -r onescills/skills /your/project/.opencode/skills   # OpenCode
-cp -r onescills/skills /your/project/.qwen/skills       # Qwen Code
+cp -r oneskills/skills /your/project/.claude/skills      # Claude Code
+cp -r oneskills/skills /your/project/.cursor/skills      # Cursor
+cp -r oneskills/skills /your/project/.codex/skills       # Codex CLI
+cp -r oneskills/skills /your/project/.kiro/steering      # Kiro
+cp -r oneskills/skills /your/project/skills/custom       # DeerFlow 2.0
+cp -r oneskills/skills /your/project/.trae/skills         # Trae
+cp -r oneskills/skills /your/project/.antigravity        # Antigravity
+cp -r oneskills/skills /your/project/.github/superpowers # VS Code (Copilot)
+cp -r oneskills/skills /your/project/skills              # OpenClaw
+cp -r oneskills/skills /your/project/.windsurf/skills   # Windsurf
+cp -r oneskills/skills /your/project/.gemini/skills     # Gemini CLI
+cp -r oneskills/skills /your/project/.aider/skills      # Aider
+cp -r oneskills/skills /your/project/.opencode/skills   # OpenCode
+cp -r oneskills/skills /your/project/.qwen/skills       # Qwen Code
 ```
 
 ### Trae 远程连接 SSH 配置
@@ -110,6 +110,35 @@ cp -r onescills/skills /your/project/.qwen/skills       # Qwen Code
 2. **添加新连接**，在scnet下载ssh-key登录，配置ssh远程连接
 3. **测试连接**，确保能够成功连接到远程服务器
 4. **配置工作目录**，设置为你的项目路径
+
+### Trae 中配置 onescience-agent.md
+
+`onescience-agent.md` 是 OneScience 科研智能体的配置文件，用于定义智能体的能力、行为和工作流程。在 Trae 中配置使用方法如下：
+
+#### 配置步骤
+
+**方式一：通过浏览器链接导入（推荐）**
+
+1. **打开浏览器**，访问链接：https://s.trae.com.cn/a/6e4491?region=cn
+2. **选择导入智能体**：在页面中选择 "导入智能体" 选项
+3. **配置智能体**：将以下配置内容复制到智能体配置编辑器中
+4. **保存并使用**：保存配置后，即可在对话界面中选择该智能体进行使用
+
+**方式二：在 Trae IDE 中导入**
+
+1. **打开 Trae IDE**，点击左侧边栏的 "设置" 图标
+2. **选择智能体**：在智能体设置页面，点击 "新建智能体" 或 "导入智能体"
+3. **配置智能体**：将以下配置内容复制到智能体配置编辑器中
+4. **保存并使用**：保存配置后，即可在对话界面中选择该智能体进行使用
+
+
+
+#### 使用方法
+
+1. **启动智能体**：在 Trae 中选择 `OneScience科研智能体` 智能体
+2. **提交任务**：使用自然语言描述你的科学计算任务
+3. **监控执行**：查看智能体的执行过程和结果
+4. **获取结果**：智能体完成任务后，获取处理结果和生成的代码
 
 ### 配置文件说明
 

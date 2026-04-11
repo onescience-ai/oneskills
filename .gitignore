@@ -12,3 +12,5 @@
 .qwen/
 .agents/
 skills/onescience-coder/onescience
+debug/
+
