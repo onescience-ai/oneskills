@@ -162,6 +162,31 @@
 | v_component_of_wind_100 | 北向风 | m/s | 100hPa |
 | v_component_of_wind_50 | 北向风 | m/s | 50hPa |
 | vertical_velocity_500 | 垂直速度 | Pa/s | 500hPa |
+| relative_humidity_500 | 相对湿度 | % | 500hPa |
+| relative_humidity_850 | 相对湿度 | % | 850hPa |
+| relative_humidity_50 | 相对湿度 | % | 50hPa |
+| relative_humidity_200 | 相对湿度 | % | 200hPa |
+| relative_humidity_100 | 相对湿度 | % | 100hPa |
+| relative_humidity_150 | 相对湿度 | % | 150hPa |
+| relative_humidity_250 | 相对湿度 | % | 250hPa |
+| relative_humidity_300 | 相对湿度 | % | 300hPa |
+| relative_humidity_400 | 相对湿度 | % | 400hPa |
+| relative_humidity_600 | 相对湿度 | % | 600hPa |
+| relative_humidity_700 | 相对湿度 | % | 700hPa |
+| relative_humidity_925 | 相对湿度 | % | 925hPa |
+| relative_humidity_1000 | 相对湿度 | % | 1000hPa |
+| sea_surface_temperature | 海表温度 | K | - |
+| surface_pressure | 表面气压 | Pa | - |
+| total_column_water_vapour | 总柱状水汽 | kg/m² | - |
+
+### 静态变量
+| 变量名 | 描述 | 单位 |
+|--------|------|------|
+| geopotential | 位势高度 | m²/s² |
+| land_mask | 陆地掩码 | 二进制 |
+| land_sea_mask | 海陆掩码 | 二进制 |
+| soil_type | 土壤类型 | 分类 |
+| topography | 地形数据 | m |
 
 ## 数据读取方法
 
@@ -312,77 +337,32 @@ datapipe:
     verbose: true
     cache: false
     
-    # 气象变量
+    # 气象变量 (99个变量 - 根据实际数据调整)
     channels:  [
-        'mean_sea_level_pressure', 
-        '10m_u_component_of_wind', 
-        '10m_v_component_of_wind', 
-        '2m_temperature', 
-        'geopotential_1000', 
-        'geopotential_925', 
-        'geopotential_850', 
-        'geopotential_700', 
-        'geopotential_600', 
-        'geopotential_500', 
-        'geopotential_400', 
-        'geopotential_300', 
-        'geopotential_250', 
-        'geopotential_200', 
-        'geopotential_150', 
-        'geopotential_100', 
-        'geopotential_50',
-        'specific_humidity_1000', 
-        'specific_humidity_925', 
-        'specific_humidity_850', 
-        'specific_humidity_700', 
-        'specific_humidity_600',
-        'specific_humidity_500', 
-        'specific_humidity_400', 
-        'specific_humidity_300', 
-        'specific_humidity_250', 
-        'specific_humidity_200', 
-        'specific_humidity_150', 
-        'specific_humidity_100', 
-        'specific_humidity_50', 
-        'temperature_1000', 
-        'temperature_925', 
-        'temperature_850', 
-        'temperature_700', 
-        'temperature_600', 
-        'temperature_500', 
-        'temperature_400', 
-        'temperature_300', 
-        'temperature_250', 
-        'temperature_200',
-        'temperature_150', 
-        'temperature_100', 
-        'temperature_50', 
-        'u_component_of_wind_1000', 
-        'u_component_of_wind_925', 
-        'u_component_of_wind_850', 
-        'u_component_of_wind_700', 
-        'u_component_of_wind_600', 
-        'u_component_of_wind_500', 
-        'u_component_of_wind_400', 
-        'u_component_of_wind_300', 
-        'u_component_of_wind_250', 
-        'u_component_of_wind_200', 
-        'u_component_of_wind_150', 
-        'u_component_of_wind_100', 
-        'u_component_of_wind_50', 
-        'v_component_of_wind_1000', 
-        'v_component_of_wind_925', 
-        'v_component_of_wind_850', 
-        'v_component_of_wind_700', 
-        'v_component_of_wind_600', 
-        'v_component_of_wind_500', 
-        'v_component_of_wind_400', 
-        'v_component_of_wind_300', 
-        'v_component_of_wind_250', 
-        'v_component_of_wind_200', 
-        'v_component_of_wind_150', 
-        'v_component_of_wind_100', 
-        'v_component_of_wind_50'
+        '10m_u_component_of_wind', '10m_v_component_of_wind', '2m_temperature',
+        'geopotential_100', 'geopotential_1000', 'geopotential_150', 'geopotential_200', 'geopotential_250',
+        'geopotential_300', 'geopotential_400', 'geopotential_50', 'geopotential_500', 'geopotential_600',
+        'geopotential_700', 'geopotential_850', 'geopotential_925', 'mean_sea_level_pressure',
+        'relative_humidity_500', 'relative_humidity_850', 'specific_humidity_100', 'specific_humidity_1000',
+        'specific_humidity_150', 'specific_humidity_200', 'specific_humidity_250', 'specific_humidity_300',
+        'specific_humidity_400', 'specific_humidity_50', 'specific_humidity_500', 'specific_humidity_600',
+        'specific_humidity_700', 'specific_humidity_850', 'specific_humidity_925', 'surface_pressure',
+        'temperature_100', 'temperature_1000', 'temperature_150', 'temperature_200', 'temperature_250',
+        'temperature_300', 'temperature_400', 'temperature_50', 'temperature_500', 'temperature_600',
+        'temperature_700', 'temperature_850', 'temperature_925', 'total_column_water_vapour', 'total_precipitation',
+        'u_component_of_wind_100', 'u_component_of_wind_1000', 'u_component_of_wind_150', 'u_component_of_wind_200',
+        'u_component_of_wind_250', 'u_component_of_wind_300', 'u_component_of_wind_400', 'u_component_of_wind_50',
+        'u_component_of_wind_500', 'u_component_of_wind_600', 'u_component_of_wind_700', 'u_component_of_wind_850',
+        'u_component_of_wind_925', 'v_component_of_wind_100', 'v_component_of_wind_1000', 'v_component_of_wind_150',
+        'v_component_of_wind_200', 'v_component_of_wind_250', 'v_component_of_wind_300', 'v_component_of_wind_400',
+        'v_component_of_wind_50', 'v_component_of_wind_500', 'v_component_of_wind_600', 'v_component_of_wind_700',
+        'v_component_of_wind_850', 'v_component_of_wind_925', 'relative_humidity_50', 'relative_humidity_200',
+        'relative_humidity_100', 'relative_humidity_150', 'relative_humidity_250', 'relative_humidity_300',
+        'relative_humidity_400', 'relative_humidity_600', 'relative_humidity_700', 'relative_humidity_925',
+        'relative_humidity_1000', 'sea_surface_temperature', 'vertical_velocity_50', 'vertical_velocity_100',
+        'vertical_velocity_150', 'vertical_velocity_200', 'vertical_velocity_250', 'vertical_velocity_300',
+        'vertical_velocity_400', 'vertical_velocity_500', 'vertical_velocity_600', 'vertical_velocity_700',
+        'vertical_velocity_850', 'vertical_velocity_925', 'vertical_velocity_1000'
     ]
 ```
 
