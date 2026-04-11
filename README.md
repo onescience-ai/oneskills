@@ -34,29 +34,39 @@ OneSkills 是基于 OneScience 构建的开源知识与能力库（Skills Librar
 - 两者协同工作，实现从模型训练到智能体开发的完整链路
 
 
-### Skills 目录结构
+### 目录结构
 
-OneSkills 提供了 5 个核心基类型 Skills，覆盖 AI 研究全生命周期：
+**核心 Skills**：
 
-| Skills 目录 | 作用 |
-|-------------|------|
-| **onescience-auto-research/** | 自主研究编排层，管理 AI 研究全生命周期（文献综述→创意生成→实验执行→论文写作） |
-| **onescience-coder/** | OneScience 代码生成，支持模型、组件、数据管道的代码生成与改造 |
-| **onescience-installer/** | OneScience 安装助手，协助安装和配置 OneScience 环境 |
-| **onescience-planner/** | 研究计划生成器，生成研究计划和实验方案 |
-| **onescience-runtime/** | 运行时环境管理，管理运行时环境和作业提交 |
+| 目录 | 作用 |
+|------|------|
+| **onescience-auto-research/** | 自主研究编排，管理 AI 研究全生命周期 |
+| **onescience-coder/** | 代码生成与改造，支持模型、组件、数据管道 |
+| **onescience-data-processing/** | 数据处理与分析，提供数据卡和处理工具 |
+| **onescience-installer/** | 环境安装与配置助手 |
+| **onescience-model-scaling/** | 模型扩展与优化，支持模型规模调整，暂未开放 |
+| **onescience-planner/** | 研究计划与实验方案生成 |
+| **onescience-runtime/** | 运行时环境管理与作业提交 |
+| **onescience-skill/** | 技能管理与创建工具 |
+| **onescience-test/** | 测试工具与验证框架 |
+| **onescience-training/** | 模型训练与评估工具 |
 
-**完整目录结构**：
+**完整项目结构**：
 
 ```
 oneskills/
-├── skills/                    # 核心 Skills 目录（5 个基类型 Skills）
-│   ├── onescience-auto-research/
-│   ├── onescience-coder/
-│   ├── onescience-installer/
-│   ├── onescience-planner/
-│   ├── onescience-runtime/
-│   └── onescience.json        # 运行时配置文件
+├── skills/                    # 核心 Skills 目录
+│   ├── onescience-auto-research/  # 自主研究编排
+│   ├── onescience-coder/          # 代码生成与改造
+│   ├── onescience-data-processing/ # 数据处理与分析
+│   ├── onescience-installer/      # 环境安装与配置
+│   ├── onescience-model-scaling/  # 模型扩展与优化
+│   ├── onescience-planner/        # 研究计划生成
+│   ├── onescience-runtime/        # 运行时环境管理
+│   ├── onescience-skill/          # 技能管理与创建
+│   ├── onescience-test/           # 测试工具与验证
+│   ├── onescience-training/       # 模型训练与评估
+│   └── onescience.json            # 运行时配置文件
 ├── models/                    # 模型卡（Model Cards）
 ├── contracts/                 # 组件契约（Component Contracts）
 ├── datapipes/                 # 数据卡（DataPipe Cards）
@@ -92,6 +102,83 @@ cp -r onescills/skills /your/project/.opencode/skills   # OpenCode
 cp -r onescills/skills /your/project/.qwen/skills       # Qwen Code
 ```
 
+### Trae 远程连接 SSH 配置
+
+在 Trae 中配置远程连接 SSH 的步骤如下：
+
+1. **打开 Trae IDE**，点击左侧边栏的 "远程连接" 图标
+2. **添加新连接**，在scnet下载ssh-key登录，配置ssh远程连接
+3. **测试连接**，确保能够成功连接到远程服务器
+4. **配置工作目录**，设置为你的项目路径
+
+### 配置文件说明
+
+#### onescience.json
+
+`onescience.json` 是 OneScience 的运行时配置文件，用于定义作业提交的参数和环境设置。需要复制到用户当前工程的根目录。
+
+**主要配置项**：
+- `runtime.mode`：运行模式，支持 `slurm` 等
+- `runtime.cluster`：集群配置，包括分区、节点数、GPU 数量等
+- `runtime.modules`：需要加载的环境模块
+- `runtime.conda`：conda 环境配置
+- `runtime.script`：作业脚本配置
+
+**示例配置**：
+```json
+{
+  "runtime": {
+    "mode": "slurm",
+    "cluster": {
+      "partition": "hpctest02",
+      "nodes": 1,
+      "gpus_per_node": 1,
+      "cpus_per_task": 8,
+      "memory": "64GB",
+      "time_limit": "02:00:00",
+      "gpu_type": "dcu",
+      "ntasks_per_node": 1
+    },
+    "modules": [
+      "sghpc-mpi-gcc/26.3",
+      "sghpcdas/25.6"
+    ],
+    "conda": {
+      "enabled": true,
+      "env_name": "onescience311",
+      "activate_script": "source ~/.bashrc && conda activate onescience311"
+    },
+    "script": {
+      "path": "slurm_submit.sh",
+      "generate": true,
+      "template": "default",
+      "job_name": "era5_dataloader",
+      "code_path": "era5_reader.py",
+      "env_vars": {
+        "ONESCIENCE_DATASETS_DIR": "/public/share/sugonhpcapp01/onestore/onedatasets/",
+        "ONESCIENCE_MODELS_DIR": "/public/share/sugonhpcapp01/onestore/onemodels/"
+      },
+      "work_dir": "."
+    }
+  }
+}
+```
+
+#### tpl.slurm
+
+`tpl.slurm` 是 Slurm 作业提交模板文件，用于生成实际的作业提交脚本。需要复制到用户当前工程的根目录。
+
+**主要功能**：
+- 定义作业的资源需求（CPU、GPU、内存等）
+- 配置环境变量和模块加载
+- 设置 Conda 环境激活
+- 执行用户指定的代码
+
+**使用方法**：
+1. 将 `tpl.slurm` 复制到项目根目录
+2. 根据需要修改 `onescience.json` 中的配置
+3. 运行 `onescience-skill` 相关的 Skill 生成并提交作业
+
 ### 智能体配置文件说明
 
 | 工具 | 配置文件 | 路径 | 说明 |
@@ -112,21 +199,14 @@ cp -r onescills/skills /your/project/.qwen/skills       # Qwen Code
 
 ### 使用 Skills
 
-Skills 通过自然语言提示词触发。以下是一个模型改造任务示例：
+Skills 通过自然语言提示词触发。以下是一个数据读取分析任务示例：
 
 ```
-基于 ./oneskills/trae/task/react_prompt.md 中的工作流执行以下任务：
+使用onescience-skill技能，在当前目录生成读取部分ERA5数据集代码， 并使用slurm提交运行
 
-## 任务目标
-将 Pangu-Weather 模型中的 Swin-Transformer Fuser 模块替换为 FourCastNet 的 AFNO（Adaptive Fourier Neural Operator）模块，并将改造完成的完整模型代码保存至当前项目 hybrid_pangu_fourcastnet.py 文件中。
-
-## 执行约束
-- 优先复用 ./oneskills/models/ 中的模型卡
-- 使用 ./oneskills/contracts/ 中的组件契约
-- 生成代码需包含完整的 forward 实现
 ```
 
-将上述提示提交到支持 Skills 的智能体（如 Trae）对话框，即可自动执行任务并生成代码。
+将上述提示提交到支持 Skills 的智能体（如 Trae）对话框，即可自动生成代码，并提交运行。
 
 
 
