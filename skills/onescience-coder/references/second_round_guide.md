@@ -1,6 +1,6 @@
 # Second Round Guide
 
-请先参考 `./task/SKILL.md` 中定义的工作流执行任务。
+请先参考 `./references/workflow.md` 中定义的工作流执行任务。
 
 当前阶段是**第二轮代码生成阶段**。
 
@@ -9,7 +9,7 @@
 1. 不要重新输出整份需求分析
 2. 直接基于已确认的“详细执行信息”继续实现
 3. 优先复用 `./onescience/` 中已有模块
-4. 先读取相关 `models` / `contracts`
+4. 先读取相关 `assets/models/` / `assets/contracts/`
 5. 如契约信息不足，再回到对应源码锚点补充确认
 6. 只修改与当前任务直接相关的文件
 
