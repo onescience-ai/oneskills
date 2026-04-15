@@ -1,24 +1,24 @@
-# 中科天机 (TianJi) 再分析数据集
+# 中科天机数据集
 
 ## 数据集基本信息
 
-**数据集名称**: 中科天机 (TianJi) 再分析数据集  
+**数据集名称**: 中科天机数据集
 **数据集版本**: v1.0  
 **数据集来源**: TianJi Weather Science and Technology Company  
 **数据类型**: 气象  
 **空间分辨率**: 0.025°~0.1°（视子集而定）  
-**时间分辨率**: 6小时 / 12小时（视子集而定）  
+**时间分辨率**: 1小时 / 6小时（视子集而定）  
 **数据格式**: NetCDF (.nc)  
 **更新频率**: 按预报批次更新  
 
 ### 子数据集说明
 
-| 数据集 | 覆盖范围 | 分辨率 | 时间分辨率 | 预报时效 |
-|--------|----------|--------|------------|----------|
-| TJ1-CN | 中国区域（65°E~145°E，5°N~65°N） | 0.033°（约3km） | 6小时 | 未来15天，逐小时 |
-| TJ-CN  | 中国区域（65°E~145°E，5°N~65°N） | 0.025°（约2.5km） | 6小时 | 未来10天，逐小时 |
-| TJ1-GB | 全球（0°~360°E，-90°~90°N） | 0.1°（约12km） | 12小时 | 未来15天，逐小时 |
-| TJ-SubS | 全球（0°~360°E，-90°~90°N） | 0.1°（约12km） | 12小时 | 未来46天 |
+| 数据集  | 覆盖范围                                  | 分辨率             | 时间分辨率 | 预报时效         |
+| --------| ------------------------------------------- | -------------------- | ------------ | ------------------ |
+| TJ1-CN  | 中国区域（65°E~145°E，5°N~65°N） | 0.033°（约3km）   | 1小时      | 未来15天，逐小时 |
+| TJ-CN   | 中国区域（65°E~145°E，5°N~65°N） | 0.025°（约2.5km） | 1小时      | 未来10天，逐小时 |
+| TJ1-GB  | 全球（0°~360°E，-90°~90°N）  | 0.1°（约12km）    | 1小时     | 未来15天，逐小时 |
+| TJ-GB| 全球（0°~360°E，-90°~90°N）  | 0.1°（约12km）    | 1小时/1~15天，6小时/16~46天     | 未来46天         |
 
 ---
 
@@ -27,26 +27,29 @@
 ### OneScience标准存储结构
 
 ```
-{ONESCIENCE_DATASETS_DIR}/TJ/
-├── metadata.json          # 数据集元信息
-├── stats/                 # 统计信息
-│   ├── global_means.nc    # 全局均值
-│   └── global_stds.nc     # 全局标准差
-├── static/                # 静态数据
-│   ├── geopotential       # 位势高度
-│   ├── land_mask          # 陆地掩码
-│   ├── land_sea_mask      # 海陆掩码
-│   ├── soil_type          # 土壤类型
-│   └── topography         # 地形数据
-└── data/                  # 主数据（.nc 文件）
-    ├── [timestamp1].nc
-    └── ...
+{ONESCIENCE_DATASETS_DIR}/TJWeather/
+├── {dataset_type}/                 # 数据集类型（如：TJ1-CN, TJ-CN, TJ1-GB, TJ-GB）
+│   ├── stats/                      # 统计信息
+│   │   ├── global_means.nc         # 全局均值
+│   │   └── global_stds.nc          # 全局标准差
+│   │
+│   ├── static/                     # 静态地理
+│   │   ├── geopotential/           # 位势高度
+│   │   ├── land_mask/              # 陆地掩码
+│   │   ├── land_sea_mask/          # 海陆掩码
+│   │   ├── soil_type/              # 土壤类型
+│   │   └── topography/             # 地形数据
+│   │
+│   └── data/                       # 时序气象主数据（NetCDF 格式）
+│       ├── {year}{timestamp}.nc    # 主数据，按时间组织的数据文件（如：2020010100.nc）
+│       └── ...
+
 ```
 
 ### 文件命名规则
 
-- 数据文件: `[时间戳].nc`
-  - 示例: `2026021006.nc`
+- 数据文件: `[年][时间戳].nc`
+  - 示例: `20260409000297.nc`
 
 ### NC 文件内部结构
 
@@ -79,29 +82,6 @@ Attributes:
     - H: 纬度方向像素数
     - W: 经度方向像素数
   - 变量顺序: 严格按照 `used_variables` 列表顺序
-
----
-
-## 元数据信息
-
-### metadata.json 结构
-
-```json
-{
-    "variables": ["base_reflectivity", "bdsf_ave", "cape", "cldh", "cldl", "cldm", "cldt",
-                  "dpt2m", "DSWRFsfc", "gust", "max_reflectivity", "PRATEsfc", "preg", "prei",
-                  "prer", "pres", "psz", "qnh", "rh2m", "ri_min", "slp", "SPFH2m", "t2m_1km",
-                  "t2mz", "TMPsfc", "u100m", "u110m", "u120m", "u130m", "u140m", "u150m",
-                  "u160m", "u170m", "u30m", "u50m", "u60m", "u70m", "u80m", "u90m", "UGRD10m",
-                  "v100m", "v110m", "v120m", "v130m", "v140m", "v150m", "v160m", "v170m",
-                  "v30m", "v50m", "v60m", "v70m", "v80m", "v90m", "VGRD10m"],
-    "shape": ["C", "T", "H", "W"],
-    "resolution": {
-        "spatial": "0.1°",
-        "temporal": "12h"
-    }
-}
-```
 
 ---
 
@@ -188,7 +168,7 @@ Attributes:
 from onescience.datapipes.weather import TJDatapipe
 
 datapipe = TJDatapipe(
-    path="$ONESCIENCE_DATASETS_DIR/TJ/data/",
+    path="$ONESCIENCE_DATASETS_DIR/TJWeather/data/",
     used_variables=["dpt2m", "UGRD10m", "VGRD10m", "t2mz", "slp", "rh2m"],
     start_time="2026-01-01T00:00:00",
     end_time="2026-03-01T00:00:00",
@@ -408,9 +388,9 @@ model:
 datapipe:
   dataset:
     type: "netcdf"
-    data_dir: "$ONESCIENCE_DATASETS_DIR/TJ/data/"
-    stats_dir: "$ONESCIENCE_DATASETS_DIR/TJ/stats/"
-    static_dir: "$ONESCIENCE_DATASETS_DIR/TJ/static/"
+    data_dir: "$ONESCIENCE_DATASETS_DIR/TJWeather/data/"
+    stats_dir: "$ONESCIENCE_DATASETS_DIR/TJWeather/stats/"
+    static_dir: "$ONESCIENCE_DATASETS_DIR/TJWeather/static/"
 
     train_years: [2020, 2021, 2022, 2023]
     val_years: [2024]
@@ -634,7 +614,7 @@ def analyze_spatial(ds, variable, time):
 
 ## 参考资源
 
-- [中科天机官方平台](https://tianji.com)
+- [中科天机官方平台](https://www.tjweather.com)
 - [xarray 文档](https://docs.xarray.dev)
 - [PyTorch DataLoader 文档](https://pytorch.org/docs/stable/data.html)
 
@@ -642,4 +622,4 @@ def analyze_spatial(ds, variable, time):
 
 ## 更新日志
 
-- **v1.0** (2026-04-14): 初始版本，支持 TJ1-CN / TJ-CN / TJ1-GB / TJ-SubS 四类数据集
+- **v1.0** (2026-04-14): 初始版本，支持 TJ1-CN / TJ-CN / TJ1-GB / TJ-GB 四类数据集
