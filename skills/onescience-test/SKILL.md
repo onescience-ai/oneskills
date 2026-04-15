@@ -1,6 +1,6 @@
 ---
 name: onescience-test
-description: 针对 onescience 项目的完整测试技能，需要测试基于onescience组件实现的任务时使用。覆盖范围包括模型实现、气象数据流水线以及生物信息学工具；该技能会根据需要路由至对应的参考工作流，生成或检查测试任务，通过 scnet MCP 提交作业（必须），收集日志，并输出结构化的测试报告。
+description: 针对 onescience 项目的完整测试技能，需要测试基于onescience组件实现的任务时使用。覆盖范围包括模型实现、数据适配到模型可读、气象数据流水线以及生物信息学工具；该技能会根据需要路由至对应的参考工作流，生成或检查测试任务，通过 scnet MCP 提交作业（必须），收集日志，并输出结构化的测试报告。
 ---
 
 # Onescience 任务测试技能
@@ -12,6 +12,7 @@ description: 针对 onescience 项目的完整测试技能，需要测试基于o
 先识别当前任务属于哪一类：
 
 - 模型实现测试：检查模型结构、实例化、前向传播、梯度、设备兼容性、集群提交与日志分析。
+- 数据适配与训练/推理启动测试：针对将给定数据集（如 RAE2822、中科天机）适配到现有模型架构（如 Transolver、pangu）并生成 train.py / inference.py 的任务，验证训练和推理入口能在集群上成功启动并运行若干步。
 - 气象数据 Pipeline 测试：检查 DataPipe / Dataset 的格式适配、时间窗口、区域裁剪、PyTorch 集成和性能约束。
 - 生物信息学工具测试：检查生物工具的输入输出、领域逻辑、与 Onescience 框架集成及可执行性。
 
@@ -22,8 +23,8 @@ description: 针对 onescience 项目的完整测试技能，需要测试基于o
 按任务类型读取最少必要的 reference：
 
 - 模型测试：读取 `references/model_test.md`
-- 气象 DataPipe 测试：读取 `references/earth_datapipe.md`
-- 生物信息学工具测试：读取 `references/bio_tool.md`
+- 数据适配到模型可训测试：读取 `references/training_pipeline_test.md`
+- 气象 DataPipe 测试：读取 `references/earth_datapipe_test.md`
 
 只有在当前任务确实需要时才继续深读 reference；不要一次性加载全部参考文档。
 
@@ -38,14 +39,17 @@ description: 针对 onescience 项目的完整测试技能，需要测试基于o
 5. 需要集群执行时，通过 scnet MCP 提交文件和任务，收集 `.out` / `.err` 日志。
 6. 输出结构化测试报告；若失败，先定位失败点和根因，再给出最小修复建议。
 
-## DataPipe / 工具测试工作方式
+## 数据适配 / DataPipe / 工具测试工作方式
 
 处理非模型任务时：
 
 1. 先确定领域和输入数据类型。
-2. 针对气象 DataPipe，重点核对数据格式读取、变量顺序、时间窗口、训练验证划分、区域切片、Dataset 接口、懒加载和错误处理。
-3. 针对生物信息学工具，重点核对 Onescience 模块集成、输入格式、核心算法调用、参数化、日志与输出规范。
-4. 若用户要求“测试”，优先做可执行验证；若缺少真实数据或环境，再退回静态审查并明确说明限制。
+2. 若任务是“新数据适配到已有模型或预训练模型”，优先按 `references/training_pipeline_test.md` 执行，重点验证 `原始数据 -> Dataset / DataPipe -> DataLoader / batch -> 模型成功读取` 这条链路是否打通。
+3. 对这类数据适配任务，只要数据加载并被模型成功读取即可，不默认扩展到完整训练、收敛或最终指标验证，除非用户明确要求。
+4. 针对这类任务，重点核对原始字段到模型输入字段的映射、shape、dtype、设备放置、`collate_fn`、推理入口或训练入口的读取契约。
+5. 针对气象 DataPipe，重点核对数据格式读取、变量顺序、时间窗口、训练验证划分、区域切片、Dataset 接口、懒加载和错误处理。
+6. 针对生物信息学工具，重点核对 Onescience 模块集成、输入格式、核心算法调用、参数化、日志与输出规范。
+7. 若用户要求“测试”，优先做可执行验证；若缺少真实数据或环境，再退回静态审查并明确说明限制。
 
 ## 标准执行闭环
 

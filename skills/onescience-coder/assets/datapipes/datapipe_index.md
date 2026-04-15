@@ -37,6 +37,7 @@
 | ShapeNetCarDatapipe | 三维车体表面 CFD 数据 | `param*/sample/` 目录下成对 `quadpress_smpl.vtk` / `hexvelo_smpl.vtk`，可选预处理缓存 | 单仿真图样本 | `source.data_dir`, `source.preprocessed_save_dir`, `data.splits.fold_id`, `model_hparams.cfd_mesh/r/max_neighbors` | `stable` | `./datapipes/shapenetcar.md` |
 | DeepCFDDatapipe | 规则网格稳态流场配对数据 | 同目录下成对 `dataX.pkl` / `dataY.pkl` | 单样本图像张量 | `source.data_dir`, `source.data_x_name`, `source.data_y_name`, `data.split_ratio`, `data.seed`, `batch_size` | `stable` | `./datapipes/deepcfd.md` |
 | DeepMind_CylinderFlowDatapipe | 非结构网格圆柱绕流时序图数据 | `meta.json + train/valid/test.tfrecord` | 单轨迹-单时间步 DGL 图样本 | `source.data_dir`, `source.stats_dir`, `data.train_steps/val_steps/test_steps`, `noise_std`, `batch_size` | `stable` | `./datapipes/deepmind_cylinderflow.md` |
+| TJDatapipe | 中科天机气象再分析/预报数据 | 按批次时间戳命名的 `.nc` 文件目录 | 连续时间窗样本 | `path`, `used_variables`, `start_time`, `end_time`, `input_steps`, `output_steps`, `normalize`, `batch_size` | `stable` | `./datapipes/tj.md` |
 
 ## 未登记 Datapipe 的处理方式
 
