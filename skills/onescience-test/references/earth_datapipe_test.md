@@ -86,7 +86,28 @@
 4. 判断是否需要验证时间窗口、区域切片、年份切换或训练/验证划分。
 5. 识别是否需要将测试文件放在数据管道文件同目录下以保证相对导入可用。
 
+> **数据路径约束（强制）**：测试用例中所有数据路径（包括 `data_root`、`data_path`、文件路径等初始化参数）必须来源于以下之一，**禁止随意赋值或使用占位符路径**：
+> - 用户在当前对话中明确提供的路径；
+> - 被测代码文件中已定义的默认路径或常量；
+> - 同目录下配置文件（`*.yaml` / `*.json` / `*.cfg`）中的路径字段；
+> - 执行脚本模板中的环境变量（如 `$ONESCIENCE_DATASETS_DIR`）。
+>
+> 若以上来源均无法确定路径，**必须先向用户询问，不得自行构造路径**。
+
 ### 4.2 生成或补全测试脚本
+
+**生成前置检查（优先级最高）**：
+
+在生成测试脚本前，先检查以下两类已有产物：
+
+1. datapipe 配置文件：检查数据管道文件同目录或项目根目录下是否存在 `*.yaml` / `*.json` / `*.cfg` 等配置文件，且其中包含 datapipe 相关配置（如 `dataset`、`datapipe`、`dataloader` 等字段）。
+2. 直读脚本：检查同目录下是否存在`data_read.py`、 `read_data*.py`、`load_data*.py`、`read_*.py` 等直接读取数据的脚本。
+
+**判断规则**：
+
+- 若**同时存在** datapipe 配置文件和直读脚本（如 `read_data.py`）：**跳过测试脚本生成**，直接进入 4.3 生成任务执行脚本，执行脚本将调用已有直读脚本。
+- 若**仅存在**直读脚本但无配置文件，或**仅存在**配置文件但无直读脚本：继续按模板生成测试脚本。
+- 若**均不存在**：按模板正常生成测试脚本。
 
 生成测试脚本时严格遵循以下规则：
 
@@ -109,6 +130,7 @@ class TestDataPipe<Name>:
 
     def setup_method(self):
         from <module> import <DataPipeClass>
+        # 解析配置文件获取初始化参数，或者从用户需求中解析
         self.dataset = <DataPipeClass>(
             # 填入从代码中提取的最小可运行参数
         )
@@ -152,20 +174,22 @@ if __name__ == "__main__":
 - 样本结构、字段名、shape 是否符合实现约定
 - 是否可被 `DataLoader` 正常批处理
 - 一个与该 DataPipe 强相关的核心规则是否成立
-- NC 时序数据：变量顺序、输入/输出窗口长度、训练/验证划分是否正确
-- H5 区域数据：经纬度范围切片、跨年索引、坐标系转换是否正确
-> 注意：不要测试没有的功能或者函数
+> 注意：不要测试没有的功能或者函数，只测试模板中的测试点。
 
 ### 4.3 生成任务执行脚本
 
-在测试脚本生成完成后，继续生成执行脚本：
+在测试脚本生成完成后（或跳过测试脚本生成后），继续生成执行脚本：
 
 1. 文件名默认使用 `test_<name>.sh`。
-2. 与 `test_datapipe_<name>.py` 保存在同一目录。
+2. 与测试文件保存在同一目录。
 3. 脚本中负责初始化 module 环境、激活 conda 环境并执行测试命令。
-4. 若测试文件名为 `test_datapipe_<name>.py`，执行命令需与实际文件名保持一致。
 
-生成任务执行脚本模板：
+**执行命令选择规则**：
+
+- 若任务中已存在 `read_data*.py`、`load_data*.py`、`read_*.py` 等直读脚本：执行命令使用 `python <read_data脚本名>.py`，不使用 pytest。
+- 若无直读脚本，使用 pytest 执行测试文件：`python test_datapipe_<name>.py`。
+
+生成任务执行脚本模板（直读脚本场景）：
 
 ```bash
 #!/bin/bash
@@ -185,12 +209,39 @@ source $ROCM_PATH/cuda/env.sh
 
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$CONDA_PREFIX/lib
 
+export ONESCIENCE_DATASETS_DIR="/public/home/acrl99olqh/agent_result_test/onedata"
+
+python <read_data_script>.py
+```
+
+生成任务执行脚本模板（pytest 测试场景）：
+
+```bash
+#!/bin/bash
+
+source /etc/profile
+source /etc/profile.d/modules.sh
+
+module load sghpcdas/25.6
+
+source ~/.bashrc
+
+module load sghpc-mpi-gcc/26.3
+
+conda activate onescience311
+
+source $ROCM_PATH/cuda/env.sh
+
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$CONDA_PREFIX/lib
+
+export ONESCIENCE_DATASETS_DIR="/public/home/acrl99olqh/agent_result_test/onedata"
+
 python test_datapipe_<name>.py
 ```
 
 建议在实际生成时做一次一致性检查：
 
-- 脚本中的 `python xxx.py` 与真实测试文件名一致。
+- 脚本中的 `python xxx.py` 与真实执行文件名一致（直读脚本或测试文件）。
 - 提交文件列表中的路径与磁盘真实路径一致。
 - 若测试依赖额外配置、样例数据或辅助模块，也需要一并整理。
 
