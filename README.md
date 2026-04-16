@@ -28,28 +28,22 @@ OneSkills 是基于 OneScience 构建的开源知识与能力库（Skills Librar
 | **OneScience** | 科学知识与智能体基础框架            | 代码运行环境、模型训练与推理 |
 | **OneSkills**  | 能力层（Skills & Knowledge） | 用户开发环境、智能体能力扩展 |
 
-**关系说明**：
 
-- OneScience 提供底层科学计算框架与模型实现
-- OneSkills 基于 OneScience 构建，提供能力模块与开发指导
-- 两者协同工作，实现从模型训练到智能体开发的完整链路
-
-### 目录结构
 
 **核心 Skills**：
 
 | 目录                              | 作用                    |
 | ------------------------------- | --------------------- |
-| **onescience-auto-research/**   | 自主研究编排，管理 AI 研究全生命周期  |
-| **onescience-coder/**           | 代码生成与改造，支持模型、组件、数据管道  |
-| **onescience-data-processing/** | 数据处理与分析，提供数据卡和处理工具    |
-| **onescience-installer/**       | 环境安装与配置助手             |
-| **onescience-model-scaling/**   | 模型扩展与优化，支持模型规模调整，暂未开放 |
-| **onescience-planner/**         | 研究计划与实验方案生成           |
-| **onescience-runtime/**         | 运行时环境管理与作业提交          |
-| **onescience-skill/**           | 技能管理与创建工具             |
-| **onescience-test/**            | 测试工具与验证框架             |
-| **onescience-training/**        | 模型训练与评估工具             |
+| onescience-auto-research/   | 自主研究编排，管理 AI 研究全生命周期  |
+| onescience-coder/          | 代码生成与改造，支持模型、组件、数据管道  |
+| onescience-data-processing/ | 数据处理与分析，提供数据卡和处理工具    |
+| onescience-installer/       | 环境安装与配置助手             |
+| onescience-model-scaling/   | 模型扩展与优化，支持模型规模调整，暂未开放 |
+| onescience-planner/         | 研究计划与实验方案生成           |
+| onescience-runtime/         | 运行时环境管理与作业提交          |
+| onescience-skill/           | 技能管理与创建工具             |
+| onescience-test/            | 测试工具与验证框架             |
+| onescience-training/        | 模型训练与评估工具             |
 
 <br />
 
