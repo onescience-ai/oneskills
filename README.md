@@ -8,46 +8,27 @@
 
 ## 📖 项目简介
 
-OneSkills 是基于 OneScience 构建的开源知识与能力库（Skills Library），专为智能体（Agents）开发设计，提供可复用、可组合、可扩展的能力模块，聚焦 AI4S（AI for Science）科学智能科研领域，实现从数据处理、模型训练到实验分析的全流程自动化科研能力，显著提升科学研究效率与代码生成效果。
-
-在智能体时代，单一模型能力已无法满足复杂科学计算任务需求。OneSkills 通过结构化知识库与可执行能力模块，帮助开发者构建专业级 AI-native 科学研究系统。
+OneSkills 是基于 OneScience 构建的开源知识与能力库（Skills Library），专为智能体（Agents）开发设计，提供可复用、可组合、可扩展的能力模块，聚焦 AI4S（AI for Science）科学智能科研领域，实现从**环境安装、科学代码生成、自动提交、代码测试**的全流程自动化科研能力，显著提升科学研究效率与代码生成效果。
 
 ### 核心特性
 
-- 📚 **结构化知识库**：基于 OneScience 的科学知识与模型组件文档
-- 🧠 **可执行能力模块**：标准化的 Skills 定义与工作流
-- 🔗 **Agent-ready 接口**：专为 Claude Code、Trae 等智能体设计
-- 🌐 **多领域覆盖**：气象、生信、材料、流体等科学领域
-
-***
-
-## 🔗 与 OneScience 的关系
-
-| 项目             | 定位                      | 用途             |
-| -------------- | ----------------------- | -------------- |
-| **OneScience** | 科学知识与智能体基础框架            | 代码运行环境、模型训练与推理 |
-| **OneSkills**  | 能力层（Skills & Knowledge） | 用户开发环境、智能体能力扩展 |
-
-
+- 📚 结构化知识库：基于 OneScience 的科学知识与模型组件文档
+- 🧠 可执行能力模块：标准化的 Skills 定义与工作流
+- 🔗 Agent-ready 接口：专为 Claude Code、Trae 等智能体设计
+- 🌐 多领域覆盖：气象、生信、材料、流体等科学领域
 
 **核心 Skills**：
 
 | 目录                              | 作用                    |
-| ------------------------------- | --------------------- |
-| onescience-auto-research/   | 自主研究编排，管理 AI 研究全生命周期  |
-| onescience-coder/          | 代码生成与改造，支持模型、组件、数据管道  |
-| onescience-data-processing/ | 数据处理与分析，提供数据卡和处理工具    |
-| onescience-installer/       | 环境安装与配置助手             |
-| onescience-model-scaling/   | 模型扩展与优化，支持模型规模调整，暂未开放 |
-| onescience-planner/         | 研究计划与实验方案生成           |
-| onescience-runtime/         | 运行时环境管理与作业提交          |
-| onescience-skill/           | 技能管理与创建工具             |
-| onescience-test/            | 测试工具与验证框架             |
-| onescience-training/        | 模型训练与评估工具             |
+| ------------------------------- | --------------------- 
+| onescience-installer/       | **基于DCU的开发环境安装智能安装**             |
+| onescience-coder/          | **基于成熟模型的代码生成与改造**  |
+| onescience-runtime/         | **基于DCU的智能化作业提交**          |
+| onescience-skill/           | **需求拆解与管理**             |
+| onescience-test/            | **代码测试与验证**             |
 
 <br />
 
-***
 
 ## ⚙️ 快速开始
 
@@ -78,13 +59,7 @@ cp -r oneskills/skills /your/project/.opencode/skills   # OpenCode
 3. 测试连接，确保能够成功连接到远程服务器
 4. 配置工作目录，设置为你的项目路径
 
-#### 配置OneScience科研智能体
-
-1. 打开浏览器，访问链接：<https://s.trae.com.cn/a/6e4491?region=cn>
-2. 选择导入智能体：在页面中选择 "导入智能体" 选项
-3. 启动智能体：在 Trae 中选择 `OneScience科研智能体` 智能体
-
-### 开启开发之旅
+### 使用 OneSkills开始开发
 
 Skills 通过自然语言提示词触发。以下是一个数据读取分析任务示例：
 
