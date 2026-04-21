@@ -30,11 +30,10 @@ OneSkills 是基于 OneScience 构建的开源知识与能力库（Skills Librar
 
 ```bash
 git clone https://github.com/onescience-ai/oneskills.git
-# git clone https://github.com/onescience-ai/onescience.git # 可选
-
-
-
 cp -r oneskills/skills /your/project/.trae/skills         # Trae
+
+# 若需要智能体分析代码，可下载onescience到项目中
+# git clone https://github.com/onescience-ai/onescience.git 
 
 # 其他智能体
 # cp -r oneskills/skills /your/project/.claude/skills      # Claude Code
