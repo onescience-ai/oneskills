@@ -1,5 +1,5 @@
 ---
-name: onescience-test
+name: onescience-debug
 description: 对 onescience 项目的测试识别与测试编排技能。用于识别一个请求是否属于可测试任务，并在模型测试、Earth DataPipe 测试、完整训练或推理流程测试这三类测试路径中自动映射到最合适的一条。适用于用户要求验证 onescience 相关实现是否可执行、可读取、可启动、可运行若干步，尤其是涉及 model、datapipe 或 dataset、train、inference、config、runner、case 目录等内容的任务。用户不需要显式说明应采用哪条测试路径，技能应根据任务范围与交付边界自行判断。
 ---
 

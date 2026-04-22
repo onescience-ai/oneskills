@@ -84,7 +84,7 @@
 ### 4.1 工程化 Skills
 
 * onescience-coder: 面向 OneScience 代码库的任务分析与实现规划技能
-* onescience-test: 对 onescience 项目的测试识别与测试编排技能
+* onescience-debug: 对 OneScience 生成内容进行 debug、诊断与问题定位的技能
 * onescience-runtime: 在 SLURM 环境中自动提交代码
 * onescience-installer: 面向 DCU 平台的 OneScience 安装助手
 
@@ -108,9 +108,9 @@
 
 ---
 
-### 4.5 测试与诊断
+### 4.5 生成内容调试与诊断
 
-通过 onescience-test 技能实现
+通过 onescience-debug 技能实现
 
 ---
 
@@ -158,7 +158,7 @@
 
 #### 分析阶段：
 
-优先使用 onescience-test 技能进行指标计算和可视化
+优先使用 onescience-debug 技能对生成的内容、日志、指标和可视化结果进行 debug、诊断和校验
 
 ---
 
@@ -173,10 +173,10 @@
 每个任务至少包含：
 
 ```text id="minimal_pipeline"
-onescience-coder → onescience-runtime → onescience-test
+onescience-coder → onescience-runtime → onescience-debug
 ```
 
-即：数据加载分析、模型构建 → 训练运行 → 测试评估
+即：数据加载分析、模型构建 → 训练运行 → 生成内容 debug 与结果校验
 
 ---
 
@@ -194,8 +194,8 @@ pipeline:
   - skill: onescience-runtime
     reason: 训练配置与执行
 
-  - skill: onescience-test
-    reason: 指标计算与评估
+  - skill: onescience-debug
+    reason: 对生成的内容、日志和结果进行 debug 与校验
 ```
 
 ---
@@ -212,7 +212,7 @@ pipeline:
 
 * 数据复杂 → onescience-coder 进行数据清洗对齐
 * 训练复杂 → onescience-runtime 配置分布式训练
-* 结果异常 → onescience-test 进行诊断
+* 结果异常 → onescience-debug 进行定位与诊断
 
 ---
 
@@ -331,14 +331,14 @@ pipeline:
 | 数据集接入类 | 将新数据集接入已有训推模型 | onescience-coder |
 | 模型架构创新类 | 在现有模型基础上做创新, 不是单纯的做组件替换 | onescience-coder |
 | 模型快速搭建类 | 依据已有知识,例如模型框架,快速搭建模型 | onescience-coder |
-| 论文复现类 | 直接从文章中提取结构,搭建模型 | onescience-test |
-| 统一 Benchmark 类 | 基于新的数据集或者现有数据，做多个模块的快速对比验证 | onescience-test (完整训练或推理流程测试路径) |
+| 生成内容核对类 | 对生成的代码、配置、日志或中间结果进行一致性检查与问题定位 | onescience-debug |
+| Benchmark 异常排查类 | 基于新的数据集或者现有数据，在多模块对比验证后对异常结果进行 debug | onescience-debug (生成结果排查路径) |
 | 预训练权重迁移与微调类 | 加载已有权重，在新任务或者小样本数据上继续训练 | onescience-coder |
 | 训练流程工程化类 | 基于已有模型和数据，生成配置文件/参数设置/执行脚本（单机单卡，单机多卡，多机多卡） | onescience-runtime |
 | 围绕显存&训练稳定性做 AMP 并行策略 平台适配 | 优化训练稳定性和显存使用 | onescience-runtime |
 | 多源数据融合建模 | 以地球科学为例（把全球-区域、多模态、多物理场、不同分辨率或不同网格形式的数据进行对齐、采样、融合并联合建模） | onescience-coder |
-| 后处理结果与可视化 | 输出结果并进行可解释性分析 | onescience-test (完整训练或推理流程测试路径) |
-| 模型诊断与调试类 | 训练/推理结果异常后快速定位问题，比如梯度爆炸 | onescience-test (模型测试路径) |
+| 后处理结果与可视化排查 | 对生成的结果、图表和可解释性分析内容进行异常排查 | onescience-debug (生成结果排查路径) |
+| 模型诊断与调试类 | 训练/推理结果异常后快速定位问题，比如梯度爆炸 | onescience-debug (模型生成内容调试路径) |
 | 降低模型参数量同时确保能力 | 模型压缩与轻量化 | onescience-coder |
 | 任务提交运行类 | 将已配置好的训练/推理任务提交到 SLURM 环境运行 | onescience-runtime |
 
@@ -372,8 +372,8 @@ pipeline:
   - skill: onescience-coder
     reason: 数据加载、解析、分析与统计
 
-  - skill: onescience-test
-    reason: 数据质量检查
+  - skill: onescience-debug
+    reason: 检查生成的统计结果与分析结论是否存在异常或遗漏
 ```
 
 执行策略：
@@ -415,8 +415,8 @@ pipeline:
   - skill: onescience-runtime
     reason: 训练配置与执行
 
-  - skill: onescience-test
-    reason: 指标计算
+  - skill: onescience-debug
+    reason: 对生成的训练日志、指标和结果进行 debug 校验
 ```
 
 执行策略：
@@ -453,8 +453,8 @@ Pipeline：
 
 ```yaml
 pipeline:
-  - skill: onescience-test
-    reason: 分析 loss 曲线是否异常，检查梯度是否爆炸或消失
+  - skill: onescience-debug
+    reason: 分析生成的 loss 曲线、日志和梯度信息，定位异常原因
 
   - skill: onescience-runtime
     reason: 调整学习率或优化器
@@ -499,8 +499,8 @@ pipeline:
   - skill: onescience-runtime
     reason: 配置训练参数，执行训练任务
 
-  - skill: onescience-test
-    reason: 计算预测误差，可视化预测结果
+  - skill: onescience-debug
+    reason: 对生成的预测结果、误差分析和可视化内容进行 debug
 ```
 
 执行策略：
@@ -537,8 +537,8 @@ Pipeline：
 
 ```yaml
 pipeline:
-  - skill: onescience-test
-    reason: 确认当前模型表现，判断是否存在训练问题，对比优化前后效果
+  - skill: onescience-debug
+    reason: 检查当前生成结果与训练行为，定位性能问题并对比优化前后差异
 
   - skill: onescience-runtime
     reason: 调整训练策略
@@ -587,8 +587,8 @@ pipeline:
   - skill: onescience-runtime
     reason: 配置训练参数，提交训练任务
 
-  - skill: onescience-test
-    reason: 输出评估指标
+  - skill: onescience-debug
+    reason: 对生成的评估指标、日志和输出结果进行 debug 校验
 ```
 
 执行策略：
