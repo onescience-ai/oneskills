@@ -1,57 +1,87 @@
 # Model Index
 
-## 目标
+## 使用建议
 
-本文档用于登记当前已经补充到 `oneskills` 的模型级知识。
+- 用户明确提到模型名时，先读这里，再跳到对应模型卡。
+- 若用户没提模型名，但目标很像已有案例，也先在这里找最接近的基线。
+- 先分清楚模型吃的是哪种协议：`(x, fx)`、`PyG Data`、`DGLGraph`，还是 `(node_features, edge_features, graph)`。
+- `CFD_Benchmark` 目录里存在若干与主库其它目录“同名但不同实现”的模型，尤其是 `Transolver` 和 `MeshGraphNet`，不要混用。
 
-它与 `contracts/component_index.md` 的分工不同：
+## 已登记模型
 
-- `model_index.md`
-  - 解决“当前任务更接近哪个已有模型”
-  - 提供模型级输入输出、主干结构、组件链路和常见修改点
-- `component_index.md`
-  - 解决“某个模块该从哪个入口初始化、`style` 写什么、shape 怎么对齐”
+| 模型 | 任务类型 | 输入协议摘要 | 主干类型 | 状态 | 模型卡 |
+| --- | --- | --- | --- | --- | --- |
+| `Transolver` | CFD / pointwise field regression | `PyG Data.x + Data.pos` | pointwise physics transformer | `stable` | [transolver.md](./transolver.md) |
+| `Transolver (CFD_Benchmark)` | CFD / benchmark token regression | `(x, fx, T)` | token transformer with slicing | `stable` | [transolver_benchmark.md](./transolver_benchmark.md) |
+| `MeshGraphNet` | CFD / graph rollout & regression | `DGLGraph + node/edge features` | encode-process-decode graph net | `stable` | [meshgraphnet.md](./meshgraphnet.md) |
+| `MeshGraphNet (CFD_Benchmark)` | CFD / explicit graph regression | `(node_features, edge_features, graph)` | encode-process-decode graph net | `stable` | [meshgraphnet_benchmark.md](./meshgraphnet_benchmark.md) |
+| `FNO` | CFD / operator learning | `(x, fx)` | Fourier operator trunk | `stable` | [fno.md](./fno.md) |
+| `F_FNO` | CFD / operator learning | `(x, fx)` | factorized Fourier trunk | `stable` | [f_fno.md](./f_fno.md) |
+| `GFNO` | CFD / 2D operator learning | `(x, fx)` | group-equivariant Fourier trunk | `stable` | [gfno.md](./gfno.md) |
+| `U_FNO` | CFD / operator learning | `(x, fx)` | Fourier trunk with parallel U-branch | `stable` | [u_fno.md](./u_fno.md) |
+| `U_NO` | CFD / operator learning | `(x, fx)` | U-shaped neural operator | `stable` | [u_no.md](./u_no.md) |
+| `U_Net (CFD_Benchmark)` | CFD / operator learning | `(x, fx)` | U-shape encoder/decoder | `stable` | [u_net_operator.md](./u_net_operator.md) |
+| `MWT` | CFD / operator learning | `(x, fx)` | multiwavelet transform trunk | `stable` | [mwt.md](./mwt.md) |
+| `LSM` | CFD / hybrid operator learning | `(x, fx)` | U-Net + latent spectral blocks | `stable` | [lsm.md](./lsm.md) |
+| `DeepONet` | CFD / operator learning | `(x, fx)` | branch-trunk MLP operator | `stable` | [deeponet.md](./deeponet.md) |
+| `ONO` | CFD / operator learning | `(x, fx)` | orthogonal neural operator blocks | `stable` | [ono.md](./ono.md) |
+| `GNOT` | CFD / operator learning | `(x, fx)` | MoE-style transformer operator | `stable` | [gnot.md](./gnot.md) |
+| `Transformer` | CFD / token baseline | `(x, fx)` | standard self-attention trunk | `stable` | [transformer.md](./transformer.md) |
+| `Galerkin_Transformer` | CFD / token baseline | `(x, fx)` | linear-attention transformer | `stable` | [galerkin_transformer.md](./galerkin_transformer.md) |
+| `Factformer` | CFD / token baseline | `(x, fx)` | factorized-attention transformer | `stable` | [factformer.md](./factformer.md) |
+| `Swin_Transformer` | CFD / structured 2D baseline | `(x, fx)` | windowed transformer trunk | `stable` | [swin_transformer.md](./swin_transformer.md) |
+| `GraphSAGE` | CFD / graph baseline | `(x, fx, edge_index)` | PyG message passing | `stable` | [graphsage.md](./graphsage.md) |
+| `Graph_UNet` | CFD / graph baseline | `(x, fx, edge_index)` | hierarchical graph U-Net | `stable` | [graph_unet.md](./graph_unet.md) |
+| `PointNet` | CFD / point baseline | `(x, fx)` | pointwise MLP + global pooling | `stable` | [pointnet.md](./pointnet.md) |
+| `RegDGCNN` | CFD / point baseline | `(x, fx)` | dynamic kNN EdgeConv trunk | `stable` | [regdgcnn.md](./regdgcnn.md) |
+| `Pangu` | weather / global forecasting | surface 2D + upper-air 3D | 3D token trunk | `stable` | [pangu.md](./pangu.md) |
+| `FourCastNet` | weather / global forecasting | 2D fields | AFNO trunk | `stable` | [fourcastnet.md](./fourcastnet.md) |
+| `Fuxi` | weather / spatiotemporal forecasting | multi-step 2D/3D blocks | U-shape Swin trunk | `stable` | [fuxi.md](./fuxi.md) |
+| `FengWu` | weather / medium-range forecasting | multi-branch 2D inputs | encoder-decoder + 3D fuser | `stable` | [fengwu.md](./fengwu.md) |
 
-## 建议使用方式
+## CFD_Benchmark 里当前已覆盖的模型
 
-推荐让智能体按下面顺序检索：
+- 已单独成卡：
+  - `DeepONet`
+  - `Factformer`
+  - `FNO`
+  - `F_FNO`
+  - `Galerkin_Transformer`
+  - `GFNO`
+  - `GNOT`
+  - `GraphSAGE`
+  - `Graph_UNet`
+  - `LSM`
+  - `MeshGraphNet (CFD_Benchmark)`
+  - `MWT`
+  - `ONO`
+  - `PointNet`
+  - `RegDGCNN`
+  - `Swin_Transformer`
+  - `Transformer`
+  - `Transolver (CFD_Benchmark)`
+  - `U_FNO`
+  - `U_Net (CFD_Benchmark)`
+  - `U_NO`
 
-1. 若用户明确提到模型名，先读本文档
-2. 若用户没提模型名，但任务明显接近某个已知模型，也可先读本文档
-3. 再按需读取对应模型卡
-4. 然后读取相关组件契约
-5. 只有当模型卡和契约都不够时，再回到源码
+## 选型提示
 
-## 当前已登记模型
+- 规则网格算子学习：
+  - 先看 `FNO`、`F_FNO`、`U_FNO`、`U_NO`、`U_Net (CFD_Benchmark)`、`MWT`、`LSM`
+- 结构化网格上的纯注意力主干：
+  - 先看 `Transformer`、`Galerkin_Transformer`、`Factformer`、`Swin_Transformer`
+- branch-trunk / 双分支算子路线：
+  - 先看 `DeepONet`、`ONO`、`GNOT`
+- 点云或显式图基线：
+  - 先看 `PointNet`、`RegDGCNN`、`GraphSAGE`、`Graph_UNet`
+- 显式图 encode-process-decode：
+  - 如果是通用 DGL MGN 案例，看 `MeshGraphNet`
+  - 如果是 `CFD_Benchmark` 风格实验工厂，看 `MeshGraphNet (CFD_Benchmark)`
+- Transolver 路线：
+  - 如果训练脚本吃 `PyG Data`，看 `Transolver`
+  - 如果训练脚本吃 `(x, fx)`，看 `Transolver (CFD_Benchmark)`
 
-| 模型 | 任务类型 | 输入形态摘要 | 主干类型 | 主要依赖组件 | 状态 | 模型卡 |
-|---|---|---|---|---|---|---|
-| Transolver | CFD / 点级物理场回归 | `PyG Data` 点集输入，`Data.x + Data.pos` | 2D/3D point trunk with physics slicing | `OneTransformer(style="Transolver_block")`, `StandardMLP` | `stable` | `./models/transolver.md` |
-| MeshGraphNet | CFD / 图网格物理场回归 | `DGLGraph + node_features + edge_features` | graph encode-process-decode trunk | `OneMlp`, `OneEdge`, `OneNode` | `stable` | `./models/meshgraphnet.md` |
-| FNO | CFD / 规则网格神经算子基线 | `(pos, fx)` 接口 | spectral operator trunk | `OneMlp`, `OneFourier` | `stable` | `./models/fno.md` |
-| U_FNO | CFD / 谱算子 + 多尺度分支基线 | `(pos, fx)` 接口 | spectral trunk with parallel U-shape branch | `OneMlp`, `OneFourier`, `U_Net` | `stable` | `./models/u_fno.md` |
-| U_NO | CFD / U-shaped neural operator | `(pos, fx)` 接口 | U-shape operator trunk | `OneMlp`, `OneFourier` | `stable` | `./models/u_no.md` |
-| U_Net (CFD_Benchmark) | CFD / benchmark 风格 U-shape 基线 | `(pos, fx)` 接口 | U-shape encoder/decoder trunk | `OneMlp`, `OneFourier`, `OneEncoder`, `OneDecoder`, `OneHead` | `stable` | `./models/u_net_operator.md` |
-| Pangu | 全球天气预报 / 多层大气与地表联合建模 | surface 2D + upper-air 3D | 3D token trunk | `PanguEmbedding`, `PanguFuser`, `PanguDownSample`, `PanguUpSample`, `PanguPatchRecovery` | `stable` | `./models/pangu.md` |
-| FourCastNet | 全球天气预报 / 单时刻 2D 场建模 | 2D 场 | 2D patch-grid AFNO trunk | `FourCastNetEmbedding`, `FourCastNetFuser`, `FourCastNetAFNO2D`, `FourCastNetFC` | `stable` | `./models/fourcastnet.md` |
-| Fuxi | 多时间步二维气象场预报 | 多时间步 3D 时空块输入 | 2D U-shape Swin trunk | `FuxiEmbedding`, `FuxiTransformer`, `FuxiDownSample`, `FuxiUpSample`, `FuxiFC` | `stable` | `./models/fuxi.md` |
-| FengWu | 多变量中期天气预报 | 多分支 2D 场输入 | 多分支 2D encoder/decoder + 3D fuser | `FengWuEncoder`, `FengWuFuser`, `FengWuDecoder` | `stable` | `./models/fengwu.md` |
+## 维护建议
 
-## 适合优先看模型卡的问题
-
-- 当前任务更像哪个已有模型
-- 某个模型的输入输出变量如何组织
-- 某个模型的 trunk 是二维还是三维
-- 做模块替换时，应先改哪些调用点
-- 做跨模型组件替换时，哪些 shape 或语义最容易冲突
-- 当用户说“U-Net”时，当前指的是 `CFD_Benchmark/U_Net` 还是 `DeepCFD/UNet(Ex)`
-- 当用户说“MGN”时，当前通常指的是 `MeshGraphNet` 路线，但要继续确认具体是 DGL 版现有案例还是 benchmark 版实现
-
-## 新增模型卡的维护建议
-
-新增模型时，建议至少完成以下内容：
-
-1. 复制 `./models/TEMPLATE.md`
-2. 填写模型级输入输出、主干结构、主要依赖组件和风险点
-3. 在本文档中登记
-4. 检查 `README.md`、`task/SKILL.md`、`DEVELOPER_MANUAL.md` 是否需要同步更新
+- 新增模型卡时，优先写清输入协议、主干类型、最容易混淆的实现差异。
+- 对同名不同实现，优先在索引里直接拆成两行，而不是只在单张卡片里顺带提一句。

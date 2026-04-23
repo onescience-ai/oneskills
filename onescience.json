@@ -2,7 +2,7 @@
   "runtime": {
     "mode": "slurm",
     "cluster": {
-      "partition": "hpctest02",
+      "partition": "hpctest01",
       "nodes": 1,
       "gpus_per_node": 1,
       "cpus_per_task": 8,
