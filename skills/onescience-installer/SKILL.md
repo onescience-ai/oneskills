@@ -87,7 +87,7 @@ git clone https://gitee.com/onescience-ai/onescience.git
 # 进入项目目录
 cd onescience
 # 切换到指定分支
-git checkout feat/split-fields-dependencies
+git checkout main
 
 # 根据用户选择执行对应安装命令
 # 安装全部领域（用户选择 all 时执行）
