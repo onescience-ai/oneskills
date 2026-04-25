@@ -1,228 +1,274 @@
-# <div align="center"><strong>oneskills</strong></div>
+# <div align="center">OneSkills</div>
 
-### <div align="center">OneScience Skills Library for AI-native Scientific Research</div>
+<p align="center">
+  A skills library for AI-native scientific research built around <strong>OneScience</strong>.
+</p>
 
-> 🚀 OneSkills = Knowledge × Skills × Agents
+<p align="center">
+  Reusable skills for <strong>coding</strong>, <strong>debugging</strong>, <strong>runtime submission</strong>, and <strong>environment setup</strong>.
+</p>
 
-***
+<p align="center">
+  Works with <strong>Trae</strong>, <strong>Claude Code</strong>, <strong>Codex CLI</strong>, and other skill-based agents.
+</p>
 
-## 📖 项目简介
+---
 
-OneSkills 是基于 OneScience 构建的开源知识与能力库（Skills Library），专为智能体（Agents）开发设计，提供可复用、可组合、可扩展的能力模块，聚焦 AI4S（AI for Science）科学智能科研领域，实现从**环境安装、科学代码生成、自动提交、代码测试**的全流程自动化科研能力，显著提升科学研究效率与代码生成效果。
+## What is OneSkills?
 
+`OneSkills` 是面向 AI4S（AI for Science）场景的技能仓库。
 
-**核心 Skills**：
+它把 OneScience 相关的研发经验整理成可复用的 `SKILL.md` 能力模块，让智能体在科学计算任务中能按统一流程完成：
 
-| 技能场景 | 技能名称 | 能力 |
-| ---- | ------------------------------- | --------------------- |
-| 环境配置 | onescience-installer | **多学科开发环境自动化安装** |
-| 代码开发 | onescience-coder | **代码生成与改造，支持模型、组件、数据管道** |
-| 作业管理 | onescience-runtime | **基于DCU的智能化作业提交** |
-| 任务规划 | onescience-skill | **需求拆解与管理** |
-| 质量保证 | onescience-test | **代码测试与验证** |
+- 数据读取与分析
+- 模型与组件改造
+- OneScience 工程代码生成
+- SLURM / DCU 环境任务提交
+- 日志排查与结果调试
+- 远程环境安装与初始化
 
-<br />
+如果你希望智能体不只是“写一点代码”，而是围绕 `数据 → 模型 → 运行 → 调试` 给出更稳定的工程化执行路径，这个仓库就是为此准备的。
 
-## ⚙️ 快速开始
+---
 
-### 一、skills安装
+## Included skills
 
+当前仓库内置 4 个核心技能，加上 1 个技能编排入口：
+
+| Skill | 作用 | 典型场景 |
+| --- | --- | --- |
+| `onescience-skill` | 统一任务识别与技能编排 | 用户只描述需求，由技能自动选择执行链路 |
+| `onescience-coder` | OneScience 代码分析、方案设计、代码改造 | 数据管道接入、模型替换、组件复用 |
+| `onescience-debug` | 面向 OneScience 的测试识别与排障编排 | DataPipe 测试、模型测试、端到端链路排查 |
+| `onescience-runtime` | 基于 `onescience.json` 和 `tpl.slurm` 的运行提交 | SLURM / DCU 集群任务生成与提交 |
+| `onescience-installer` | 远程 DCU 环境安装助手 | conda、uv、OneScience 远程安装初始化 |
+
+---
+
+## How it works
+
+OneSkills 的基本使用方式很简单：
+
+1. 把 `skills/` 复制到你的智能体工作目录
+2. 在对话里显式触发某个 skill，或直接调用 `onescience-skill`
+3. 智能体读取对应的 `SKILL.md`
+4. 按技能里定义的流程生成代码、分析方案、提交任务或执行调试
+
+一个典型示例：
+
+```text
+使用 onescience-skill，生成读取部分 ERA5 数据集的代码，并给出运行方案
+```
+
+对于支持技能系统的智能体，这类提示会触发技能编排，再路由到合适的 OneScience 专项技能。
+
+---
+
+## Install
+
+### Trae
 
 ```bash
 git clone https://github.com/onescience-ai/oneskills.git
-cp -r oneskills/skills /your/project/.trae/skills         # Trae
-
-# 若需要智能体分析代码，可下载onescience到项目中
-# git clone https://github.com/onescience-ai/onescience.git 
-
-# 其他智能体
-# cp -r oneskills/skills /your/project/.claude/skills      # Claude Code
-# cp -r oneskills/skills /your/project/.codex/skills       # Codex CLI
-# cp -r oneskills/skills /your/project/.opencode/skills   # OpenCode
-
+mkdir -p /your/project/.trae
+cp -r oneskills/skills /your/project/.trae/skills
 ```
 
+### Claude Code
 
-
-### 二、使用oneSkills开发代码
-
-Skills 通过自然语言提示词触发。以下是一个数据读取分析任务示例：
-
-```
-使用onescience-skill技能，生成读取部分ERA5数据集代码
-
+```bash
+git clone https://github.com/onescience-ai/oneskills.git
+mkdir -p /your/project/.claude
+cp -r oneskills/skills /your/project/.claude/skills
 ```
 
-将上述提示提交到 `OneScience科研智能体` 对话框，即可自动生成代码
-如图：
+### Codex CLI
 
-![usage_screen](./assets/trae_usage.png)
-
-你已经使用oneskill智能开发代码
-
-### 开发完成后，可使用远程连接提交任务
-
-
-1. 打开 Trae IDE，点击左侧边栏的 "远程连接" 图标
-2. 添加新连接，在scnet下载ssh-key登录，配置ssh远程连接
-3. 测试连接，确保能够成功连接到远程服务器
-4. 配置工作目录，设置为你的项目路径
-
-在对话框中输入 提交到scnet运行，即可提交任务，配置方式如下
-
-### 配置文件说明
-
-#### onescience.json
-
-`onescience.json` 是 OneScience 的运行时配置文件，用于定义作业提交的参数和环境设置。需要复制到用户当前工程的根目录。
-
-**主要配置项**：
-- `runtime.mode`：运行模式，支持 `slurm` 等
-- `runtime.cluster`：集群配置，包括分区、节点数、GPU 数量等
-- `runtime.modules`：需要加载的环境模块
-- `runtime.conda`：conda 环境配置
-- `runtime.script`：作业脚本配置
-
-**示例配置**：
-```json
-{
-  "runtime": {
-    "mode": "slurm",
-    "cluster": {
-      "partition": "hpctest02",
-      "nodes": 1,
-      "gpus_per_node": 1,
-      "cpus_per_task": 8,
-      "memory": "64GB",
-      "time_limit": "02:00:00",
-      "gpu_type": "dcu",
-      "ntasks_per_node": 1
-    },
-    "modules": [
-      "sghpc-mpi-gcc/26.3",
-      "sghpcdas/25.6"
-    ],
-    "conda": {
-      "enabled": true,
-      "env_name": "onescience311",
-      "activate_script": "source ~/.bashrc && conda activate onescience311"
-    },
-    "script": {
-      "path": "slurm_submit.sh",
-      "generate": true,
-      "template": "default",
-      "job_name": "era5_dataloader",
-      "code_path": "era5_reader.py",
-      "env_vars": {
-        "ONESCIENCE_DATASETS_DIR": "/public/share/sugonhpcapp01/onestore/onedatasets/",
-        "ONESCIENCE_MODELS_DIR": "/public/share/sugonhpcapp01/onestore/onemodels/"
-      },
-      "work_dir": "."
-    }
-  }
-}
+```bash
+git clone https://github.com/onescience-ai/oneskills.git
+mkdir -p /your/project/.codex
+cp -r oneskills/skills /your/project/.codex/skills
 ```
 
-#### tpl.slurm
+### Other agents
 
-`tpl.slurm` 是 Slurm 作业提交模板文件，用于生成实际的作业提交脚本。需要复制到用户当前工程的根目录。
+你也可以把 `skills/` 复制到其它支持技能目录约定的智能体环境中，例如：
 
-**主要功能**：
-- 定义作业的资源需求（CPU、GPU、内存等）
-- 配置环境变量和模块加载
-- 设置 Conda 环境激活
-- 执行用户指定的代码
+```bash
+cp -r oneskills/skills /your/project/.opencode/skills
+```
 
-**使用方法**：
-1. 将 `tpl.slurm` 复制到项目根目录
-2. 根据需要修改 `onescience.json` 中的配置
+> 如果你希望智能体结合 OneScience 代码库进行源码分析，建议同时准备 `onescience` 仓库作为工作区上下文。
 
+---
 
+## Recommended files for runtime tasks
 
+如果你希望技能不仅生成代码，还能继续提交到集群运行，建议把下面两个文件一并放到你的工程根目录：
 
-### 开发 Skills
+- `onescience.json`
+- `tpl.slurm`
 
-当标准 Skills 无法满足需求时，可创建自定义 Skills：
+它们分别用于：
 
-**Skills 文件结构**（YAML 元数据 + Markdown 正文）：
+- 定义运行模式、资源规格、模块环境、conda 环境和脚本入口
+- 作为固定的 SLURM 作业模板生成提交脚本
+
+示例：
+
+```bash
+cp oneskills/onescience.json /your/project/
+cp oneskills/tpl.slurm /your/project/
+```
+
+---
+
+## Usage examples
+
+### 1. 代码生成
+
+```text
+使用 onescience-coder，基于 OneScience 实现 ERA5 数据读取 DataPipe
+```
+
+### 2. 自动技能编排
+
+```text
+使用 onescience-skill，帮我把海洋数据读取、训练脚本和运行流程串起来
+```
+
+### 3. 调试与测试
+
+```text
+使用 onescience-debug，检查这个 OneScience 模型改造是否属于模型测试还是端到端测试
+```
+
+### 4. 运行提交
+
+```text
+使用 onescience-runtime，读取当前工程的 onescience.json 并提交到 slurm
+```
+
+### 5. 远程安装
+
+```text
+使用 onescience-installer，在 DCU 环境安装 earth 领域的 OneScience 依赖
+```
+
+---
+
+## Repository layout
+
+```text
+oneskills/
+├── README.md
+├── skills/
+│   ├── SKILL.md                    # onescience-skill，技能编排入口
+│   ├── onescience-coder/SKILL.md
+│   ├── onescience-debug/SKILL.md
+│   ├── onescience-installer/SKILL.md
+│   └── onescience-runtime/SKILL.md
+├── onescience.json                # 运行时配置示例
+├── tpl.slurm                      # SLURM 模板
+├── onescience-agent.md            # OneScience Agent 总体提示词
+├── claude/                        # Claude 侧补充上下文和检查规则
+└── assets/                        # README 资源
+```
+
+---
+
+## Skill design principles
+
+这些技能不是“提示词片段”，而是带有明确职责边界的执行模块。当前设计重点包括：
+
+- **流程化**：优先把任务拆成稳定的科研工程步骤
+- **可复用**：面向 OneScience 常见研发场景沉淀固定套路
+- **可路由**：通过 `onescience-skill` 自动选择合适技能链路
+- **面向运行**：不仅生成代码，也考虑集群提交与日志排障
+- **面向真实场景**：优先支持 AI4S 中常见的数据、训练、调试闭环
+
+---
+
+## Create your own skills
+
+当内置技能不完全匹配你的流程时，可以在 `skills/` 下继续扩展自定义技能。
+
+一个最小技能通常包含：
 
 ```markdown
 ---
-name: skill_name
-description: 技能描述，简明扼要
-tags:
-  - 领域标签
-  - 功能标签
+name: my-skill
+description: 简要描述该技能解决什么问题
 ---
 
-# 技能标题
+# Skill Title
 
-## 1. 技能目标
-## 2. 适用场景
-## 3. 输入与输出
-## 4. 实现逻辑
-## 5. 验证与测试
+## 角色
+## 输入
+## 处理流程
+## 输出要求
+## 限制条件
 ```
 
-**完整示例**：参考 `./skills/` 目录下的现有 Skills 文件。
+建议保持：
 
+- 名称清晰，能直接体现职责
+- `description` 足够具体，便于智能体正确路由
+- 流程步骤可执行，而不是宽泛描述
+- 对输入、输出、边界条件给出明确要求
 
-## OneSkills 核心特性
+你可以直接参考 `skills/` 下现有技能的组织方式。
 
-- 📚 结构化知识库：基于 OneScience 的科学知识与模型组件文档
-- 🧠 可执行能力模块：标准化的 Skills 定义与工作流
-- 🔗 Agent-ready 接口：专为 Claude Code、Trae 等智能体设计
-- 🌐 多领域覆盖：气象、生信、材料、流体等科学领域
+---
 
-***
+## Screenshot
 
-## 🌍 应用场景
+下面是 OneSkills 在 Trae 中的一个使用示例：
 
-| 场景                   | 描述         | 示例                |
-| -------------------- | ---------- | ----------------- |
-| 📊 **数据分析助手**        | 科学数据处理与可视化 | 气象数据读取、网格插值、结果可视化 |
-| 🧑‍💻 **开发辅助 Agent** | 模型代码生成与改造  | 模块替换、特征融合、架构优化    |
-| 🧠 **AI Copilot 系统** | 交互式智能开发    | 自然语言编程、错误诊断、性能优化  |
-| 🔬 **科研工作流**         | 复杂科学计算任务   | 多模型组合、跨领域适配、自动化流程 |
+![OneSkills usage](./assets/trae_usage.png)
 
-***
+---
 
-## 🤝 社区与贡献
+## Contributing
 
-欢迎加入 OneSkills 社区，共同构建 AI-native 科学研究生态：
+欢迎通过以下方式参与共建：
 
-### 参与方式
+- 提交 Issue，报告问题或提出新技能需求
+- 提交 PR，补充技能、优化文档或修复流程
+- 分享你的领域化 Skill 模板
 
-- **提交 Issue**：报告问题、提出功能需求
-- **发起 PR**：贡献新 Skills、修复 Bug、优化文档
-- **分享 Skill**：分享您的自定义 Skills 至社区
+建议贡献内容包括：
 
-### 贡献指南
+- 新的 AI4S 场景技能
+- 更清晰的技能路由逻辑
+- 更稳定的运行配置模板
+- 更完整的示例提示词与文档
 
-1. Fork 项目并创建分支
-2. 添加/修改 Skills 文件
-3. 确保符合项目规范与格式
-4. 提交 Pull Request 并描述变更
+---
 
-### 社区交流
+## Related files
 
-- GitHub Issues：[issues](https://github.com/onescience-ai/oneskills/issues)
-- Discussion：[discussions](https://github.com/onescience-ai/oneskills/discussions)
+- `skills/SKILL.md`: 技能总入口与路由规则
+- `skills/onescience-coder/SKILL.md`: 代码分析与设计技能
+- `skills/onescience-debug/SKILL.md`: 测试识别与排障技能
+- `skills/onescience-runtime/SKILL.md`: 运行提交技能
+- `skills/onescience-installer/SKILL.md`: 远程安装技能
+- `onescience.json`: 运行配置示例
+- `tpl.slurm`: SLURM 模板
+- `onescience-agent.md`: 通用 Agent 提示词
 
-***
+---
 
-## 📄 许可证
+## Acknowledgement
 
-本项目采用 MIT 许可证 - 详见 [LICENSE](LICENSE) 文件。
+本 README 的组织方式参考了 `huggingface/skills` 这类技能仓库首页的呈现思路：突出“技能是什么、怎么安装、怎么触发、包含哪些能力”。
 
-***
+参考仓库：
 
-## ⭐ Star History
+- https://github.com/huggingface/skills
 
-如果这个项目对你有帮助，欢迎 ⭐️ 支持！
+---
 
-***
+## License
 
-<div align="center">
-  <strong>Built with OneScience for AI-native Scientific Research</strong>
-</div>
+本仓库当前未包含单独的 `LICENSE` 文件；如需开源发布，建议补充明确许可证。
